@@ -1,0 +1,50 @@
+﻿@model ICollection<UsuarioModel>
+
+@{
+    ViewBag.Subtitulo = "Listagem de Usuários";
+}
+
+<header class="d-flex justify-content-between align-items-center">
+    <div>
+        <h1 class="text-primary">@ViewBag.Subtitulo</h1>
+    </div>
+    <div>
+        <a asp-action="CriarEditar" class="btn btn-primary">Novo Usuário</a>
+    </div>
+</header>
+<hr>
+
+<partial name="_Mensagem"></partial>
+
+@if (Model != null && Model.Count() > 0)
+{
+    <table class="table table-striped tabela-imovel">
+        <thead>
+            <tr>
+                <th>Usuários</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario in Model)
+            {
+                <tr>
+                    <td>
+                        <div><span class="subTitulo">Nome:</span> @usuario.Nome</div>
+                        <div><span class="subTitulo">Perfil:</span> @(usuario.Perfil == VistoriaApp.Enums.PerfilUsuario.Admin ? "Administrador" : "Padrão")</div>
+                        <div><span class="subTitulo">Login:</span> @usuario.Login</div>
+                        <div><span class="subTitulo">E-mail:</span> @usuario.Email</div>
+                    </td>
+                    <td class="btnLista">
+                        <a asp-action="CriarEditar" asp-route-id="@usuario.Id" class="btn btn-sm btn-success"><i class="bi bi-pencil-square" title="Editar usuário"></i></a>
+                        <a asp-action="ExcluirConfirmacao" asp-route-id="@usuario.Id" class="btn btn-sm btn-danger"><i class="bi bi-trash-fill" title="Excluir usuário"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Não há nenhum usuário cadastrado.</p>
+}
